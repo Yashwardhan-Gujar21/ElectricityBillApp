@@ -1,0 +1,63 @@
+package com.bill;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet("/calculateBill")
+public class ElectricityBillServlet extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
+        
+        response.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = response.getWriter();
+
+        try {
+            // Retrieve form parameters
+            String customerName = request.getParameter("customerName");
+            double units = Double.parseDouble(request.getParameter("units"));
+            
+            double billAmount = 0.0;
+
+            // Slab-based calculation logic
+            if (units <= 50) {
+                billAmount = units * 3.50;
+            } else if (units <= 150) {
+                billAmount = (50 * 3.50) + ((units - 50) * 4.00);
+            } else if (units <= 250) {
+                billAmount = (50 * 3.50) + (100 * 4.00) + ((units - 150) * 5.20);
+            } else {
+                billAmount = (50 * 3.50) + (100 * 4.00) + (100 * 5.20) + ((units - 250) * 6.50);
+            }
+
+            // Display Output Card
+            out.println("<!DOCTYPE html>");
+            out.println("<html><head><title>Bill Result</title>");
+            out.println("<style>");
+            out.println("body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #f4f7f6; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }");
+            out.println(".card { background: white; padding: 30px 40px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 100%; max-width: 400px; }");
+            out.println("h2 { color: #333; text-align: center; margin-top: 0; }");
+            out.println(".result-item { margin: 12px 0; font-size: 16px; color: #555; }");
+            out.println(".total { font-weight: bold; color: #007bff; font-size: 20px; border-top: 1px solid #eee; padding-top: 10px; margin-top: 15px; }");
+            out.println(".btn { display: block; width: 100%; text-align: center; background: #6c757d; color: white; padding: 10px; text-decoration: none; border-radius: 5px; margin-top: 20px; box-sizing: border-box; }");
+            out.println(".btn:hover { background: #5a6268; }");
+            out.println("</style></head><body>");
+            out.println("<div class='card'>");
+            out.println("<h2>Electricity Bill Summary</h2>");
+            out.println("<div class='result-item'><strong>Customer Name:</strong> " + customerName + "</div>");
+            out.println("<div class='result-item'><strong>Units Consumed:</strong> " + units + " kWh</div>");
+            out.println("<div class='result-item total'>Total Bill: ₹ " + String.format("%.2f", billAmount) + "</div>");
+            out.println("<a href='index.html' class='btn'>Calculate Another Bill</a>");
+            out.println("</div></body></html>");
+
+        } catch (Exception e) {
+            out.println("<h3 style='color:red;'>Error: Please enter a valid number for units.</h3>");
+        }
+    }
+}

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electricity Bill Calculator</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: #ffffff;
+            padding: 30px 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+        h2 {
+            margin-top: 0;
+            color: #333;
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 600;
+        }
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .rates {
+            margin-top: 20px;
+            font-size: 13px;
+            color: #666;
+            background: #f9f9f9;
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Electricity Bill Calculator</h2>
+        <form action="calculateBill" method="post">
+            <div class="form-group">
+                <label for="customerName">Customer Name</label>
+                <input type="text" id="customerName" name="customerName" required placeholder="Enter your name">
+            </div>
+            <div class="form-group">
+                <label for="units">Units Consumed (kWh)</label>
+                <input type="number" id="units" name="units" min="0" step="any" required placeholder="e.g., 180">
+            </div>
+            <button type="submit">Calculate Bill</button>
+        </form>
+        <div class="rates">
+            <strong>Tariff Slabs:</strong><br>
+            • 0 – 50 units: ₹3.50 / unit<br>
+            • 51 – 150 units: ₹4.00 / unit<br>
+            • 151 – 250 units: ₹5.20 / unit<br>
+            • Above 250 units: ₹6.50 / unit
+        </div>
+    </div>
+</body>
+</html>
